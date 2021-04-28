@@ -3,7 +3,7 @@ const MongoClient = require('mongodb').MongoClient;
 
 
 var express = require("express"),
-    app = express();
+  app = express();
 
 var port = process.env.PORT || 8080;
 
@@ -14,14 +14,14 @@ app.get("/sayHello", function (request, response) {
   response.end("Hello " + user_name + "!");
 });
 
-app.get('/message',function(req,res){
-    let message = req.query.message;
-    insertMessage(message);
-    res.send('added');
+app.get('/message', function (req, res) {
+  let message = req.query.message;
+  insertMessage(message);
+  res.send('added');
 })
 
-app.get('/messages', function(req,res){
-    retrieveMessages(res);
+app.get('/messages', function (req, res) {
+  retrieveMessages(res);
 })
 
 app.listen(port);
@@ -38,20 +38,20 @@ const client = new MongoClient(uri, { useNewUrlParser: true });
 let collectionMessage;
 
 client.connect(err => {
-    collectionMessage = client.db("messageboard").collection("messages");
-  });
+  collectionMessage = client.db("messageboard").collection("messages");
+});
 
-const insertMessage=(message)=>{
-  collectionMessage.insertOne({message:message})
+const insertMessage = (message) => {
+  collectionMessage.insertOne({ message: message })
 }
 
-const retrieveMessages=(res)=>{
-    collectionMessage.find().toArray(function(err, result){
-        if (err) throw err;
-        console.log(result);
-        res.send(result);
-    });
-} 
+const retrieveMessages = (res) => {
+  collectionMessage.find().toArray(function (err, result) {
+    if (err) throw err;
+    console.log(result);
+    res.send(result);
+  });
+}
 
 // setTimeout(function(){
 //     insertMessage('Hello World');
